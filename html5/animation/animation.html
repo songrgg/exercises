@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+ 	<head>
+	  	<meta charset="utf-8"/>
+	  	<style type="text/css">
+
+			body {
+				text-align: center;
+			}
+
+			@keyframes rotate {
+				from {
+				}
+
+				50% {
+					transform: rotate(500deg);
+				}
+
+				to {
+					transform: rotate(900deg);
+				}
+			}
+
+	  	</style>
+
+ 	</head>
+ 	<body>
+	   	<h1 id="watchme">抽奖</h1>
+
+	   	<img id="choujiang" src="choujiang.jpg"></img>
+	   	<br/>
+		<br/>
+	   	<ul id="output">
+	   	</ul>
+
+		<button onclick="start();">开始</button>
+	   	<button onclick="pause();">暂停</button>
+	   	<button onclick="resume();">继续</button>
+	   	<button onclick="bingo(100);">中奖</button>
+	</body>
+
+ 	<footer>
+
+	<script>
+	var e = document.getElementById("choujiang");
+	e.addEventListener("animationstart", listener, false);
+	e.addEventListener("animationend", listener, false);
+	e.addEventListener("animationiteration", listener, false);
+
+	function listener(e) {
+	  var l = document.createElement("li");
+	  switch(e.type) {
+	    case "animationstart":
+	      l.innerHTML = "开始抽奖";
+	      break;
+	    case "animationend":
+	      l.innerHTML = "结束抽奖";
+	      break;
+	    case "animationiteration":
+	      l.innerHTML = "新一轮抽奖";
+	      break;
+	  }
+	  document.getElementById("output").appendChild(l);
+	}
+
+	function start() {
+		var e = document.getElementById("choujiang");
+
+		e.style.removeProperty('animation-name');
+		e.style.removeProperty('animation-duration');
+		e.style.removeProperty('animation-iteration-count');
+		e.style.removeProperty('animation-play-state');
+
+		setTimeout(function() {
+			e.style.setProperty('animation-iteration-count', '1');
+			e.style.setProperty('animation-duration', '3s');
+			e.style.setProperty('animation-name', 'rotate');
+			e.style.setProperty('animation-iteration-count', 'infinite');
+		}, 1);
+
+	}
+
+	function resume() {
+		var e = document.getElementById("choujiang");
+		e.style.setProperty('animation-play-state', 'running');
+	}
+
+	function pause() {
+		var e = document.getElementById("choujiang");
+		e.style.setProperty('animation-play-state', 'paused');
+	}
+
+	function bingo(deg) {
+		document.styleSheets[0].insertRule('@keyframes bingo{ to { transform: rotate('+ deg + 'deg); } }', 0);
+		var e = document.getElementById("choujiang");
+
+		e.style.removeProperty('animation-name');
+		e.style.removeProperty('animation-duration');
+		e.style.removeProperty('animation-iteration-count');
+		e.style.removeProperty('animation-play-state');
+
+		setTimeout(function() {
+			e.style.setProperty('animation-duration', '2s');
+			e.style.setProperty('animation-name', 'bingo');
+			e.style.setProperty('animation-iteration-count', '1');
+			e.style.setProperty('animation-fill-mode', 'both');
+		}, 0);
+	}
+
+ 	</script>
+
+ 	</footer>
+</html>
